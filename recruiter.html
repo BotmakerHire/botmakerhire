@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>HireAI — Panel Recruiter · Omint</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@300;400;500&family=Geist:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0C0E0D;--s1:#121412;--s2:#191B19;--s3:#202220;--s4:#262926;
+  --b:#2A2D2A;--b2:#343734;
+  --g:#3ECF8E;--g2:#2A9E6A;--gd:rgba(62,207,142,.1);--gg:rgba(62,207,142,.06);
+  --t:#E6E9E6;--m:#888B88;--d:#484B48;
+  --red:#F87171;--rd:rgba(248,113,113,.1);
+  --amb:#FBBF24;--ad:rgba(251,191,36,.1);
+  --blu:#60A5FA;--bld:rgba(96,165,250,.1);
+  --omint:#005F9E;--omintd:rgba(0,95,158,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Geist',sans-serif;background:var(--bg);color:var(--t);font-size:13px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+
+/* TOPBAR */
+.tb{display:flex;align-items:center;justify-content:space-between;padding:0 18px;height:46px;background:var(--s1);border-bottom:1px solid var(--b);position:sticky;top:0;z-index:100}
+.logo{font-family:'Instrument Serif',serif;font-size:17px;letter-spacing:-.02em}
+.logo em{font-style:italic;color:var(--g)}
+.tb-mid{display:flex;align-items:center;gap:7px;font-family:'Geist Mono',monospace;font-size:10px;color:var(--m)}
+.live-dot{width:5px;height:5px;border-radius:50%;background:var(--g);animation:pulse 2s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.tb-r{display:flex;align-items:center;gap:8px}
+.btn-sm{padding:5px 11px;font-size:11px;border-radius:5px;cursor:pointer;font-family:'Geist',sans-serif;border:none;font-weight:500;transition:opacity .15s}
+.btn-sm:hover{opacity:.85}
+.btn-reset{background:var(--s3);color:var(--m);border:1px solid var(--b2)}
+.btn-open{background:var(--omint);color:#fff}
+.omint-badge{font-family:'Geist Mono',monospace;font-size:10px;color:var(--m);padding:3px 9px;border-radius:3px;background:var(--s3);border:1px solid var(--b2)}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:280px 1fr;height:calc(100vh - 46px)}
+
+/* SIDEBAR */
+.sidebar{border-right:1px solid var(--b);background:var(--s1);overflow-y:auto}
+.sb-section{padding:14px 16px;border-bottom:1px solid var(--b)}
+.sb-lbl{font-family:'Geist Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--d);margin-bottom:10px}
+
+/* KPI GRID */
+.kgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:0}
+.kc{background:var(--s2);border:1px solid var(--b);border-radius:6px;padding:10px 11px}
+.kc.hi{border-color:rgba(62,207,142,.25);background:var(--gg)}
+.kl{font-family:'Geist Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.05em;color:var(--d);margin-bottom:3px}
+.kv{font-family:'Instrument Serif',serif;font-size:24px;color:var(--t);line-height:1}
+.ks{font-size:10px;color:var(--g);margin-top:2px}
+.ks.w{color:var(--amb)}
+
+/* JOB CONFIG */
+.job-card{background:var(--s2);border:1px solid var(--b);border-radius:7px;padding:12px;margin-bottom:0}
+.job-title{font-family:'Instrument Serif',serif;font-size:16px;color:var(--t);margin-bottom:3px}
+.job-sub{font-size:11px;color:var(--m);margin-bottom:10px}
+.ko-list{display:flex;flex-direction:column;gap:4px}
+.ko-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--m)}
+.ko-dot{width:5px;height:5px;border-radius:50%;background:var(--red);flex-shrink:0}
+
+/* SLOTS */
+.slots-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:0}
+.slot{background:var(--s3);border:1px solid var(--b);border-radius:4px;padding:5px 8px;font-family:'Geist Mono',monospace;font-size:10px;color:var(--m);cursor:pointer;transition:all .15s;text-align:center}
+.slot:hover{border-color:var(--g);color:var(--g)}
+.slot.used{background:var(--gd);border-color:rgba(62,207,142,.25);color:var(--g)}
+
+/* MAIN */
+.main{overflow-y:auto;padding:16px}
+
+/* STAGE HEADER */
+.stage-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;margin-top:16px}
+.stage-hd:first-child{margin-top:0}
+.stage-name{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--t)}
+.stage-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.s1-dot{background:var(--omint)}
+.s2-dot{background:var(--amb)}
+.s3-dot{background:var(--g)}
+.stage-ct{font-family:'Geist Mono',monospace;font-size:10px;padding:2px 8px;border-radius:3px;background:var(--s3);border:1px solid var(--b);color:var(--m)}
+
+/* CANDIDATE CARDS */
+.cands{display:flex;flex-direction:column;gap:7px;margin-bottom:8px}
+.ccard{background:var(--s2);border:1px solid var(--b);border-radius:8px;overflow:hidden;transition:border-color .2s;cursor:pointer}
+.ccard:hover{border-color:var(--b2)}
+.ccard.new-card{border-color:rgba(62,207,142,.4);animation:highlight .8s ease}
+@keyframes highlight{0%,100%{box-shadow:none}50%{box-shadow:0 0 0 3px var(--gg)}}
+.ccard.expanded{border-color:rgba(62,207,142,.3)}
+.cc-top{display:flex;align-items:center;gap:9px;padding:10px 13px}
+.cc-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Geist Mono',monospace;font-size:10px;font-weight:500;flex-shrink:0}
+.av-a{background:rgba(62,207,142,.15);color:var(--g)}
+.av-b{background:rgba(96,165,250,.15);color:var(--blu)}
+.av-c{background:rgba(251,191,36,.12);color:var(--amb)}
+.av-d{background:rgba(248,113,113,.12);color:var(--red)}
+.av-e{background:rgba(167,139,250,.15);color:#a78bfa}
+.av-li{background:var(--omintd);color:var(--omint)}
+.cc-inf{flex:1;min-width:0}
+.cc-nm{font-size:13px;font-weight:500;color:var(--t);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cc-rl{font-size:11px;color:var(--m);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cc-tags{display:flex;gap:4px;margin-top:4px;flex-wrap:wrap}
+.ctag{font-family:'Geist Mono',monospace;font-size:9px;padding:1px 6px;border-radius:2px}
+.ct-g{background:var(--gd);border:1px solid rgba(62,207,142,.2);color:var(--g)}
+.ct-r{background:var(--rd);border:1px solid rgba(248,113,113,.2);color:var(--red)}
+.ct-a{background:var(--ad);border:1px solid rgba(251,191,36,.2);color:var(--amb)}
+.ct-b{background:var(--bld);border:1px solid rgba(96,165,250,.2);color:var(--blu)}
+.ct-live{background:var(--gd);border:1px solid rgba(62,207,142,.3);color:var(--g);animation:pulse 2s infinite}
+.cc-right{text-align:right;flex-shrink:0}
+.cc-sc{font-family:'Instrument Serif',serif;font-size:26px;line-height:1}
+.cc-sc-lbl{font-family:'Geist Mono',monospace;font-size:9px;color:var(--d);margin-top:1px}
+.cc-st{font-family:'Geist Mono',monospace;font-size:9px;padding:2px 6px;border-radius:2px;display:inline-block;margin-top:3px}
+.st-wait{background:var(--s3);color:var(--d)}
+.st-pend{background:var(--ad);color:var(--amb)}
+.st-ok{background:var(--gd);color:var(--g)}
+.st-sched{background:rgba(62,207,142,.15);color:var(--g)}
+.st-live{background:var(--gd);color:var(--g);animation:pulse 2s infinite}
+.st-disc{background:var(--rd);color:var(--red)}
+
+/* DETAIL PANEL */
+.cc-det{display:none;padding:0 13px 12px;border-top:1px solid var(--b)}
+.cc-det.open{display:block}
+.det-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:11px}
+.det-lbl{font-family:'Geist Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--d);margin-bottom:6px}
+.bar-r{display:flex;align-items:center;gap:7px;margin-bottom:4px}
+.bar-lbl{font-size:11px;color:var(--m);width:95px;flex-shrink:0}
+.bar-tr{flex:1;height:3px;background:var(--s3);border-radius:2px;overflow:hidden}
+.bar-fi{height:100%;border-radius:2px}
+.bar-v{font-family:'Geist Mono',monospace;font-size:10px;color:var(--t);width:20px;text-align:right}
+.quote-box{background:var(--s3);border:1px solid var(--b);border-radius:5px;padding:9px 11px;font-size:11px;color:var(--m);line-height:1.65;font-style:italic;margin-top:4px}
+.ko-results{display:flex;flex-direction:column;gap:4px;margin-top:4px}
+.kor{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--m)}
+.kor-ok{color:var(--g)}
+.kor-no{color:var(--red)}
+.pda-badge{display:inline-block;background:var(--bld);border:1px solid rgba(96,165,250,.2);color:var(--blu);border-radius:3px;padding:3px 8px;font-family:'Geist Mono',monospace;font-size:10px;margin-top:6px}
+
+/* ACTIONS */
+.det-acts{display:flex;gap:7px;margin-top:10px;flex-wrap:wrap}
+.btn{padding:7px 13px;font-size:12px;border-radius:5px;cursor:pointer;font-family:'Geist',sans-serif;border:none;font-weight:500;transition:opacity .15s}
+.btn:hover:not(:disabled){opacity:.85}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn-g{background:var(--g);color:#000}
+.btn-ghost{background:var(--s3);color:var(--m);border:1px solid var(--b2)}
+.btn-red{background:var(--rd);color:var(--red);border:1px solid rgba(248,113,113,.2)}
+
+/* CALENDAR MODAL */
+.cal-inline{background:var(--s3);border:1px solid var(--b2);border-radius:7px;padding:12px;margin-top:10px;display:none}
+.cal-inline.show{display:block}
+.cal-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:8px}
+.cal-fg{display:flex;flex-direction:column;gap:3px}
+.cal-lbl{font-family:'Geist Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--d)}
+.cal-inp,.cal-sel{background:var(--s2);border:1px solid var(--b2);border-radius:4px;padding:6px 8px;font-size:12px;color:var(--t);font-family:'Geist',sans-serif;width:100%}
+.cal-confirm{width:100%;padding:8px;background:var(--g);color:#000;border:none;border-radius:5px;font-size:12px;font-weight:500;cursor:pointer;font-family:'Geist',sans-serif;margin-top:4px}
+
+/* EMPTY STATE */
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center;color:var(--d);gap:8px}
+.empty-ico{font-size:28px;opacity:.3}
+.empty-txt{font-size:12px;line-height:1.6}
+
+/* PROC BAR */
+.proc-bar{display:flex;align-items:center;gap:7px;padding:9px 12px;background:var(--s3);border:1px solid var(--b);border-radius:5px;font-size:12px;color:var(--m);margin-top:8px}
+.pspin{width:12px;height:12px;border-radius:50%;border:2px solid var(--b2);border-top-color:var(--g);animation:spin .7s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px}
+
+@media(max-width:768px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="tb">
+  <div class="logo">Hire<em>AI</em> <span style="font-size:11px;color:var(--d);font-family:'Geist Mono',monospace;margin-left:4px">× Omint RRHH</span></div>
+  <div class="tb-mid"><div class="live-dot"></div>Panel en vivo · Asesor/a Comercial</div>
+  <div class="tb-r">
+    <button class="btn-sm btn-reset" onclick="resetDemo()">↺ Reset demo</button>
+    <button class="btn-sm btn-open" onclick="window.open('candidato.html','_blank')">Abrir vista candidato ↗</button>
+    <span class="omint-badge">Tania Karpuk</span>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sb-section">
+      <div class="sb-lbl">KPIs de la búsqueda</div>
+      <div class="kgrid" id="kgrid">
+        <div class="kc hi"><div class="kl">Aplicaron</div><div class="kv" id="k-total">0</div><div class="ks">candidatos</div></div>
+        <div class="kc"><div class="kl">Etapa 1</div><div class="kv" id="k-s1">0</div><div class="ks">screening ok</div></div>
+        <div class="kc"><div class="kl">Etapa 2</div><div class="kv" id="k-s2">0</div><div class="ks">entrevista ok</div></div>
+        <div class="kc"><div class="kl">Agendados</div><div class="kv" id="k-sched">0</div><div class="ks w">pendiente</div></div>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-lbl">Búsqueda activa</div>
+      <div class="job-card">
+        <div class="job-title">Asesor/a Comercial</div>
+        <div class="job-sub">Canal Comercial · CABA y GBA · Omint S.A.</div>
+        <div class="sb-lbl" style="margin-top:8px;margin-bottom:6px">Criterios knock-out</div>
+        <div class="ko-list">
+          <div class="ko-item"><div class="ko-dot"></div>Disponibilidad presencial CABA/GBA</div>
+          <div class="ko-item"><div class="ko-dot"></div>Experiencia en ventas</div>
+          <div class="ko-item"><div class="ko-dot"></div>Incorporación en 30 días</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-lbl">Slots disponibles (tu agenda)</div>
+      <div class="slots-grid" id="slots-grid">
+        <!-- rendered by JS -->
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-lbl" style="margin-bottom:8px">Cómo funciona la demo</div>
+      <div style="font-size:11px;color:var(--d);line-height:1.7">
+        1. Abrí la <span style="color:var(--g)">vista candidata</span> en otra pestaña<br>
+        2. El candidato aplica por WhatsApp<br>
+        3. Aparece en Etapa 1 — aprobás con un clic<br>
+        4. El candidato pasa a entrevista virtual con IA<br>
+        5. El shortlist llega a Etapa 2 con scores<br>
+        6. Agendás la entrevista presencial<br>
+        7. Se genera el .ics automáticamente
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN PIPELINE -->
+  <div class="main" id="main">
+
+    <!-- ETAPA 1 -->
+    <div class="stage-hd">
+      <div class="stage-name"><div class="stage-dot s1-dot"></div>Etapa 1 — Screening WhatsApp + CV</div>
+      <span class="stage-ct" id="s1-ct">0</span>
+    </div>
+    <div class="cands" id="stage1"></div>
+
+    <!-- ETAPA 2 -->
+    <div class="stage-hd">
+      <div class="stage-name"><div class="stage-dot s2-dot"></div>Etapa 2 — Entrevista Virtual con IA</div>
+      <span class="stage-ct" id="s2-ct">0</span>
+    </div>
+    <div class="cands" id="stage2"></div>
+
+    <!-- ETAPA 3 -->
+    <div class="stage-hd">
+      <div class="stage-name"><div class="stage-dot s3-dot"></div>Etapa 3 — Shortlist · Entrevista Presencial</div>
+      <span class="stage-ct" id="s3-ct">0</span>
+    </div>
+    <div class="cands" id="stage3"></div>
+
+    <!-- EMPTY STATE INICIAL -->
+    <div class="empty" id="empty-state">
+      <div class="empty-ico">👁</div>
+      <div class="empty-txt">Esperando candidatos...<br>Abrí la vista candidata para simular una aplicación en tiempo real.</div>
+    </div>
+
+  </div>
+</div>
+
+<script src="shared.js"></script>
+<script>
+const AVCS=['av-a','av-b','av-c','av-d','av-e','av-li'];
+const AVCI=id=>AVCS[parseInt(id.replace(/\D/g,''))%AVCS.length];
+const initials=n=>n.split(' ').map(w=>w[0]||'').join('').toUpperCase().slice(0,2)||'??';
+const scoreColor=s=>s>=85?'var(--g)':s>=70?'var(--amb)':'var(--red)';
+
+let lastRendered={};
+let renderedIds=new Set();
+
+// ── SLOTS ──────────────────────────────────────────────
+function renderSlots(){
+  const s=HireAI.get();
+  const usedSlots=s.candidates.filter(c=>c.calendarSlot).map(c=>c.calendarSlot);
+  document.getElementById('slots-grid').innerHTML=s.job.slots.map(sl=>`
+    <div class="slot${usedSlots.includes(sl)?' used':''}" data-slot="${sl}">${sl}</div>`).join('');
+}
+
+// ── RENDER PIPELINE ─────────────────────────────────────
+function renderPipeline(state){
+  const s=state||HireAI.get();
+  const cands=s.candidates;
+  const sorted=[...cands].sort((a,b)=>{
+    if(b.stage!==a.stage) return b.stage-a.stage;
+    return (b.score2||b.score1||0)-(a.score2||a.score1||0);
+  });
+
+  // KPIs
+  document.getElementById('k-total').textContent=s.stats.total;
+  document.getElementById('k-s1').textContent=s.stats.stage1;
+  document.getElementById('k-s2').textContent=s.stats.stage2;
+  document.getElementById('k-sched').textContent=s.stats.scheduled;
+
+  // Empty state
+  document.getElementById('empty-state').style.display=cands.length?'none':'flex';
+
+  // Stage containers
+  const s1cands=sorted.filter(c=>c.stage===1&&c.status!=='rejected');
+  const s2cands=sorted.filter(c=>c.stage===2&&c.status!=='rejected');
+  const s3cands=sorted.filter(c=>c.stage>=3||c.calendarSlot);
+
+  document.getElementById('s1-ct').textContent=s1cands.length;
+  document.getElementById('s2-ct').textContent=s2cands.length;
+  document.getElementById('s3-ct').textContent=s3cands.length;
+
+  renderStage('stage1', s1cands, 1);
+  renderStage('stage2', s2cands, 2);
+  renderStage('stage3', s3cands, 3);
+  renderSlots();
+}
+
+function renderStage(containerId, cands, stageNum){
+  const container=document.getElementById(containerId);
+  if(!cands.length){
+    container.innerHTML=`<div class="empty" style="padding:16px 20px;"><div class="empty-txt" style="color:var(--d);font-size:11px">${stageNum===1?'Candidatos de WhatsApp aparecen aquí':stageNum===2?'Candidatos aprobados en Etapa 1 aparecen aquí':'Candidatos para entrevista presencial'}</div></div>`;
+    return;
+  }
+
+  cands.forEach(c=>{
+    const existingEl=document.getElementById('cc-'+c.id);
+    const isNew=!renderedIds.has(c.id);
+    const changed=JSON.stringify(c)!==JSON.stringify(lastRendered[c.id]);
+
+    if(!existingEl||changed){
+      const el=buildCard(c,stageNum,isNew);
+      if(existingEl){
+        // Preserve expanded state
+        const wasExpanded=existingEl.classList.contains('expanded');
+        existingEl.replaceWith(el);
+        if(wasExpanded){ el.classList.add('expanded'); el.querySelector('.cc-det')?.classList.add('open'); }
+      } else {
+        container.appendChild(el);
+      }
+      lastRendered[c.id]=JSON.parse(JSON.stringify(c));
+      renderedIds.add(c.id);
+    }
+  });
+
+  // Remove cards no longer in this stage
+  container.querySelectorAll('.ccard').forEach(el=>{
+    const id=el.id.replace('cc-','');
+    if(!cands.find(c=>c.id===id)) el.remove();
+  });
+}
+
+function buildCard(c, stageNum, isNew){
+  const score=stageNum===1?(c.score1||0):(c.score2||c.score2partial||0);
+  const isLive=!c.score2&&!c.score1&&c.stage<1;
+  const status=c.calendarSlot?{cls:'st-sched',txt:'Agendado'}:
+    c.stage>=2?{cls:'st-ok',txt:'Aprobado E2'}:
+    c.stage===1&&c.recruiterApproved?{cls:'st-pend',txt:'En entrevista'}:
+    c.stage===1?{cls:'st-pend',txt:'Esperando aprobación'}:
+    {cls:'st-live',txt:'🔴 En vivo'};
+
+  const tags=[];
+  if(c.pdaProfile) tags.push(`<span class="ctag ct-b">${c.pdaProfile}</span>`);
+  if(c.knockoutOk) tags.push('<span class="ctag ct-g">KOs ✓</span>');
+  if(c.cvFile) tags.push('<span class="ctag ct-g">CV ✓</span>');
+  if(c.stage===0||(!c.score1&&!c.score2)) tags.push('<span class="ctag ct-live">En vivo</span>');
+
+  const el=document.createElement('div');
+  el.className='ccard'+(isNew?' new-card':'');
+  el.id='cc-'+c.id;
+  el.onclick=()=>toggleCard(c.id);
+
+  // Build detail section content
+  let detailContent='';
+  if(stageNum===1){
+    // Screening detail
+    const answers=c.screeningAnswers||[];
+    const koRows=(c.knockoutResults||[{q:'Disponibilidad presencial',pass:true},{q:'Experiencia comercial',pass:true},{q:'Incorporación 30 días',pass:true}])
+      .map(k=>`<div class="kor ${k.pass?'kor-ok':'kor-no'}">${k.pass?'✓':'✗'} ${k.q}</div>`).join('');
+
+    detailContent=`
+      <div class="det-grid">
+        <div>
+          <div class="det-lbl">Criterios knock-out</div>
+          <div class="ko-results">${koRows}</div>
+          ${c.score1?`<div style="margin-top:10px"><div class="det-lbl">Score screening</div>
+            <div class="bar-r"><span class="bar-lbl">Score general</span><div class="bar-tr"><div class="bar-fi" style="width:${c.score1}%;background:var(--omint)"></div></div><span class="bar-v">${c.score1}</span></div></div>`:''}
+        </div>
+        <div>
+          <div class="det-lbl">Perfil</div>
+          <div style="font-size:11px;color:var(--m);line-height:1.6">
+            ${c.role?`<div><strong style="color:var(--t)">${c.role}</strong></div>`:''}
+            ${c.company?`<div style="color:var(--d)">${c.company}</div>`:''}
+            ${c.skills?.length?`<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:3px">${c.skills.map(s=>`<span class="ctag ct-b">${s}</span>`).join('')}</div>`:''}
+          </div>
+        </div>
+      </div>
+      <div class="det-acts" id="acts-${c.id}">
+        ${!c.recruiterApproved
+          ? `<button class="btn btn-g" onclick="event.stopPropagation();approveCandidate('${c.id}')">✓ Aprobar → Etapa 2</button>
+             <button class="btn btn-red" onclick="event.stopPropagation();rejectCandidate('${c.id}')">Descartar</button>`
+          : `<div style="font-size:11px;color:var(--g);font-family:'Geist Mono',monospace">✓ Aprobado — en entrevista virtual</div>`}
+      </div>`;
+
+  } else if(stageNum===2){
+    // Interview detail
+    const iv=c.ivScores||{comercial:0,comunicacion:0,motivacion:0};
+    detailContent=`
+      <div class="det-grid">
+        <div>
+          <div class="det-lbl">Evaluación por dimensión</div>
+          ${[['Perfil comercial',iv.comercial||c.score2,'var(--g)'],['Comunicación',iv.comunicacion||0,'var(--blu)'],['Motivación',iv.motivacion||0,'var(--amb)']].map(([l,v,col])=>`
+            <div class="bar-r"><span class="bar-lbl">${l}</span><div class="bar-tr"><div class="bar-fi" style="width:${v}%;background:${col}"></div></div><span class="bar-v">${v}</span></div>`).join('')}
+          ${c.pdaProfile?`<span class="pda-badge">PDA: ${c.pdaProfile}</span>`:''}
+        </div>
+        <div>
+          <div class="det-lbl">Resumen del agente IA</div>
+          <div class="quote-box">${c.ivResumen||'Análisis en proceso...'}</div>
+          ${c.ivRec?`<div style="margin-top:7px;font-family:'Geist Mono',monospace;font-size:10px;color:${c.ivRec==='avanzar'?'var(--g)':'var(--amb)'}">Recomendación: ${c.ivRec}</div>`:''}
+        </div>
+      </div>
+      <div class="det-acts" id="acts-${c.id}">
+        ${!c.calendarSlot
+          ? `<button class="btn btn-g" onclick="event.stopPropagation();showCalendar('${c.id}')">📅 Agendar entrevista presencial</button>
+             <button class="btn btn-red" onclick="event.stopPropagation();rejectCandidate('${c.id}')">Descartar</button>`
+          : `<div style="font-size:11px;color:var(--g);font-family:'Geist Mono',monospace">📅 ${c.calendarSlot} · Omint HQ</div>`}
+      </div>
+      <div class="cal-inline" id="cal-${c.id}"></div>`;
+
+  } else {
+    // Scheduled
+    detailContent=`
+      <div style="padding-top:8px">
+        <div class="det-lbl">Entrevista agendada</div>
+        <div style="background:var(--s3);border:1px solid rgba(62,207,142,.2);border-radius:5px;padding:11px 13px;margin-top:6px;font-size:12px;color:var(--m);line-height:1.7">
+          📅 <strong style="color:var(--t)">${c.calendarSlot||'—'}</strong><br>
+          📍 Av. Leandro N. Alem 1050, CABA<br>
+          📧 Invitación .ics enviada
+        </div>
+        <div style="margin-top:8px;display:flex;align-items:center;gap:6px;font-family:'Geist Mono',monospace;font-size:10px;color:var(--g)">✓ Proceso completado para este candidato</div>
+      </div>`;
+  }
+
+  el.innerHTML=`
+    <div class="cc-top">
+      <div class="cc-av ${AVCI(c.id)}">${initials(c.name||'??')}</div>
+      <div class="cc-inf">
+        <div class="cc-nm">${c.name||'Candidato/a'}</div>
+        <div class="cc-rl">${[c.role,c.company].filter(Boolean).join(' · ')||'Procesando...'}</div>
+        <div class="cc-tags">${tags.join('')}</div>
+      </div>
+      <div class="cc-right">
+        <div class="cc-sc" style="color:${score?scoreColor(score):'var(--d)'}">${score||'—'}</div>
+        <div class="cc-sc-lbl">score IA</div>
+        <div class="cc-st ${status.cls}">${status.txt}</div>
+      </div>
+    </div>
+    <div class="cc-det" id="det-${c.id}">${detailContent}</div>`;
+
+  return el;
+}
+
+// ── ACTIONS ─────────────────────────────────────────────
+function toggleCard(id){
+  const det=document.getElementById('det-'+id);
+  const card=document.getElementById('cc-'+id);
+  if(!det) return;
+  const open=det.classList.contains('open');
+  document.querySelectorAll('.cc-det').forEach(d=>d.classList.remove('open'));
+  document.querySelectorAll('.ccard').forEach(c=>c.classList.remove('expanded'));
+  if(!open){det.classList.add('open');card.classList.add('expanded');}
+}
+
+function approveCandidate(id){
+  HireAI.upsert(id,{recruiterApproved:true});
+  renderPipeline();
+}
+
+function rejectCandidate(id){
+  HireAI.upsert(id,{status:'rejected',stage:-1});
+  renderPipeline();
+}
+
+function showCalendar(id){
+  const c=HireAI.find(id);
+  const cal=document.getElementById('cal-'+id);
+  if(!cal) return;
+  const s=HireAI.get();
+  const usedSlots=s.candidates.filter(x=>x.calendarSlot).map(x=>x.calendarSlot);
+  const availSlots=s.job.slots.filter(sl=>!usedSlots.includes(sl));
+
+  const tomorrow=new Date(); tomorrow.setDate(tomorrow.getDate()+1);
+  const dateStr=tomorrow.toISOString().split('T')[0];
+
+  cal.classList.add('show');
+  cal.innerHTML=`
+    <div class="cal-grid">
+      <div class="cal-fg"><label class="cal-lbl">Fecha</label><input type="date" class="cal-inp" id="ci-d-${id}" value="${dateStr}"/></div>
+      <div class="cal-fg"><label class="cal-lbl">Horario</label>
+        <select class="cal-sel" id="ci-t-${id}">
+          ${availSlots.map(sl=>`<option value="${sl}">${sl}</option>`).join('')}
+          ${!availSlots.length?`<option value="Lunes 10:00">Lunes 10:00</option>`:''}
+        </select>
+      </div>
+      <div class="cal-fg"><label class="cal-lbl">Mail del candidato</label><input type="email" class="cal-inp" id="ci-m-${id}" placeholder="email@candidato.com"/></div>
+    </div>
+    <button class="cal-confirm" onclick="confirmCalendar('${id}')">📅 Confirmar y enviar invitación</button>`;
+}
+
+function confirmCalendar(id){
+  const dateVal=document.getElementById('ci-d-'+id)?.value;
+  const timeVal=document.getElementById('ci-t-'+id)?.value||'10:00';
+  const mailVal=document.getElementById('ci-m-'+id)?.value||'candidato@mail.com';
+
+  const d=new Date((dateVal||new Date().toISOString().split('T')[0])+'T12:00:00');
+  const days=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+  const months=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  const dateDisp=`${days[d.getDay()]} ${d.getDate()} ${months[d.getMonth()]} · ${timeVal} hs`;
+
+  HireAI.upsert(id,{calendarSlot:dateDisp,stage:3,calendarMail:mailVal});
+  generateICS(HireAI.find(id)?.name||'Candidato',mailVal,dateVal||new Date().toISOString().split('T')[0],timeVal.split(':')[0]||'10',timeVal.split(':')[1]||'00');
+  renderPipeline();
+}
+
+function generateICS(name,email,dateStr,h,m){
+  const start=new Date(dateStr+'T'+h.padStart(2,'0')+':'+m.padStart(2,'0')+':00');
+  const end=new Date(start); end.setHours(end.getHours()+1);
+  const fmt=d=>d.toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
+  const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//HireAI//Omint//ES','CALSCALE:GREGORIAN','METHOD:REQUEST','BEGIN:VEVENT',
+    `DTSTART:${fmt(start)}`,`DTEND:${fmt(end)}`,`SUMMARY:Entrevista presencial — Omint S.A.`,
+    `DESCRIPTION:Entrevista para Asesor/a Comercial · Candidato/a: ${name}`,
+    `LOCATION:Av. Leandro N. Alem 1050\\, CABA`,`ORGANIZER;CN=Omint Selección:mailto:seleccion@omint.com.ar`,
+    `ATTENDEE;CN=${name};RSVP=TRUE:mailto:${email}`,`STATUS:CONFIRMED`,`SEQUENCE:0`,'END:VEVENT','END:VCALENDAR'].join('\r\n');
+  const blob=new Blob([ics],{type:'text/calendar;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download=`Entrevista_Omint_${name.replace(/\s/g,'_')}.ics`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+}
+
+// ── RESET ───────────────────────────────────────────────
+function resetDemo(){
+  if(!confirm('¿Resetear todos los datos de la demo?')) return;
+  HireAI.reset(); lastRendered={}; renderedIds.clear();
+  ['stage1','stage2','stage3'].forEach(id=>{
+    document.getElementById(id).innerHTML='';
+  });
+  renderPipeline(); renderSlots();
+}
+
+// ── INIT + POLLING ───────────────────────────────────────
+renderPipeline();
+renderSlots();
+HireAI.onChange(state=>{ renderPipeline(state); renderSlots(); });
+</script>
+</body>
+</html>

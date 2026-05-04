@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Omint — Asesor/a Comercial</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --omint:#005F9E;--omint-d:#004478;--omint-l:#E8F2FA;
+  --green:#1DB87A;--green-d:#128054;--green-l:#E6F8F1;
+  --bg:#F4F6F9;--surface:#fff;--border:#E2E8F0;
+  --text:#0F1923;--mid:#64748B;--dim:#94A3B8;
+  --wa-bg:#ECE5DD;--wa-bot:#fff;--wa-user:#DCF8C6;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;min-height:100vh}
+
+/* PAGES */
+.page{display:none;min-height:100vh}
+.page.on{display:flex;flex-direction:column}
+
+/* ── LANDING ── */
+#p-land.on{display:flex;flex-direction:column}
+.hero{background:linear-gradient(145deg,#004478,#005F9E,#0077C2);padding:36px 20px 52px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:38px;background:var(--bg);clip-path:ellipse(55% 100% at 50% 100%)}
+.omint-row{display:flex;align-items:center;gap:9px;margin-bottom:28px}
+.omint-mark{width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:17px;color:#fff}
+.omint-nm{font-size:15px;font-weight:500;color:rgba(255,255,255,.9)}
+.hero-badge{display:inline-block;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:3px 11px;font-size:11px;color:rgba(255,255,255,.78);font-family:'DM Mono',monospace;letter-spacing:.06em;margin-bottom:12px}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(26px,6vw,40px);color:#fff;line-height:1.15;margin-bottom:10px;letter-spacing:-.02em}
+.hero h1 em{font-style:italic;color:rgba(255,255,255,.65)}
+.hero-sub{font-size:14px;color:rgba(255,255,255,.72);max-width:460px;margin-bottom:24px}
+.hero-pills{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:28px}
+.pill{background:rgba(255,255,255,.11);border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:4px 11px;font-size:12px;color:rgba(255,255,255,.82);display:flex;align-items:center;gap:5px}
+.cta{display:inline-flex;align-items:center;gap:9px;background:var(--green);color:#fff;padding:13px 22px;border-radius:11px;border:none;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 4px 18px rgba(29,184,122,.38);transition:all .2s}
+.cta:hover{background:var(--green-d);transform:translateY(-1px)}
+.details{padding:28px 20px;max-width:540px;margin:0 auto;flex:1}
+.dcard{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:18px;margin-bottom:12px}
+.dcard h3{font-size:11px;font-weight:500;color:var(--mid);margin-bottom:10px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.07em}
+.drow{display:flex;align-items:flex-start;gap:9px;padding:5px 0;border-bottom:1px solid var(--border)}
+.drow:last-child{border-bottom:none}
+.drow-ico{font-size:14px;flex-shrink:0;margin-top:2px}
+.drow-txt{font-size:13px;color:var(--mid);line-height:1.5}
+.drow-txt strong{color:var(--text);font-weight:500}
+.steps-card{background:var(--omint-l);border:1px solid rgba(0,95,158,.14);border-radius:11px;padding:18px;margin-bottom:12px}
+.steps-card h3{font-size:11px;font-weight:500;color:var(--omint);margin-bottom:12px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.07em}
+.si{display:flex;align-items:flex-start;gap:11px;padding:6px 0}
+.si-n{width:21px;height:21px;border-radius:50%;background:var(--omint);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0;margin-top:1px}
+.si-t{font-size:13px;color:#334155}
+.si-t strong{color:var(--omint);font-weight:500}
+
+/* ── WHATSAPP ── */
+#p-wa{background:var(--wa-bg)}
+.wa-top{background:#075E54;display:flex;align-items:center;gap:9px;padding:9px 13px;position:sticky;top:0;z-index:20}
+.wa-back{color:rgba(255,255,255,.75);font-size:19px;cursor:pointer;padding:3px}
+.wa-cav{width:34px;height:34px;border-radius:50%;background:#128C7E;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:500;font-family:'DM Mono',monospace;flex-shrink:0}
+.wa-ci{flex:1}
+.wa-cn{font-size:13px;font-weight:500;color:#fff}
+.wa-cs{font-size:11px;color:rgba(255,255,255,.65)}
+.wa-prog{background:#128C7E;padding:5px 13px;display:flex;align-items:center;gap:7px}
+.wdots{display:flex;gap:3px}
+.wd{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.28)}
+.wd.done{background:var(--green)}
+.wd.cur{background:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.28)}
+.wprog-lbl{font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,.65);margin-left:4px}
+.wa-msgs{flex:1;padding:10px 8px;overflow-y:auto;display:flex;flex-direction:column;gap:7px}
+.mw-b{display:flex;align-items:flex-end;gap:5px}
+.mw-u{display:flex;justify-content:flex-end}
+.mav{width:24px;height:24px;border-radius:50%;background:#128C7E;display:flex;align-items:center;justify-content:center;font-size:8px;color:#fff;font-family:'DM Mono',monospace;flex-shrink:0;margin-bottom:2px}
+.mb{max-width:83%;padding:8px 11px;border-radius:10px;font-size:13px;line-height:1.55}
+.mb-b{background:var(--wa-bot);border-radius:2px 10px 10px 10px;box-shadow:0 1px 2px rgba(0,0,0,.09)}
+.mb-u{background:var(--wa-user);border-radius:10px 10px 2px 10px;box-shadow:0 1px 2px rgba(0,0,0,.09)}
+.mt{font-size:10px;color:var(--dim);margin-top:2px;text-align:right}
+.mt-u{font-size:10px;color:#7CB9A0;margin-top:2px;text-align:right}
+.typing-wrap{display:flex;align-items:flex-end;gap:5px}
+.typing{display:flex;align-items:center;gap:4px;padding:9px 12px;background:var(--wa-bot);border-radius:2px 10px 10px 10px;width:52px;box-shadow:0 1px 2px rgba(0,0,0,.09)}
+.td{width:6px;height:6px;border-radius:50%;background:#94A3B8;animation:td 1.2s infinite}
+.td:nth-child(2){animation-delay:.2s}.td:nth-child(3){animation-delay:.4s}
+@keyframes td{0%,60%,100%{transform:translateY(0);opacity:.35}30%{transform:translateY(-5px);opacity:1}}
+.wa-foot{background:#F0F2F5;padding:7px 9px;display:flex;gap:7px;align-items:flex-end}
+.wa-in{flex:1;background:#fff;border:none;border-radius:19px;padding:8px 13px;font-size:13px;color:var(--text);font-family:'DM Sans',sans-serif;resize:none;min-height:38px;max-height:90px;outline:none;line-height:1.5}
+.wa-in::placeholder{color:var(--dim)}
+.wa-sb{width:38px;height:38px;border-radius:50%;background:#075E54;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px;flex-shrink:0;transition:background .15s}
+.wa-sb:hover{background:#054940}
+.wa-sb:disabled{opacity:.38;cursor:not-allowed}
+.upload-box{background:#fff;border:1.5px dashed #CBD5E1;border-radius:9px;padding:14px;text-align:center;cursor:pointer;position:relative;transition:all .15s;margin:3px 0}
+.upload-box:hover{border-color:var(--omint);background:var(--omint-l)}
+.upload-box input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.ub-ico{font-size:22px;margin-bottom:5px}
+.ub-txt{font-size:12px;color:var(--mid)}
+.ub-fmt{font-family:'DM Mono',monospace;font-size:10px;color:var(--dim);margin-top:2px}
+.file-ok{display:flex;align-items:center;gap:8px;background:var(--green-l);border:1px solid rgba(29,184,122,.22);border-radius:8px;padding:9px 11px;margin:3px 0}
+.fo-ico{font-size:17px}
+.fo-nm{font-size:12px;font-weight:500;color:#0F5132}
+.fo-sz{font-size:11px;color:#146c43}
+
+/* ── ENTREVISTA VIRTUAL ── */
+#p-iv{background:#0A0E1A}
+.iv-top{background:#111827;border-bottom:1px solid #1F2937;padding:12px 16px;display:flex;align-items:center;gap:11px}
+.iv-bk{color:#6B7280;font-size:17px;cursor:pointer}
+.iv-ttl{font-size:13px;font-weight:500;color:#F9FAFB}
+.iv-sub{font-size:11px;color:#6B7280;margin-top:1px}
+.iv-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 20px;gap:18px}
+.iv-prog{display:flex;gap:4px;width:100%;max-width:420px}
+.ivpd{flex:1;height:3px;border-radius:2px;background:#1F2937}
+.ivpd.done{background:#3B82F6}
+.ivpd.cur{background:#3B82F6;opacity:.55}
+.av-ring{width:110px;height:110px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#3B82F6,#1D4ED8);display:flex;align-items:center;justify-content:center;box-shadow:0 0 35px rgba(59,130,246,.28);transition:box-shadow .3s}
+.av-ring.talk{box-shadow:0 0 50px rgba(59,130,246,.55),0 0 70px rgba(59,130,246,.18);animation:aring 1.6s ease-in-out infinite}
+@keyframes aring{0%,100%{box-shadow:0 0 35px rgba(59,130,246,.28)}50%{box-shadow:0 0 55px rgba(59,130,246,.6),0 0 75px rgba(59,130,246,.2)}}
+.av-face{font-size:44px}
+.av-name{font-size:15px;font-weight:500;color:#F9FAFB;text-align:center}
+.av-role{font-size:11px;color:#6B7280;text-align:center;margin-top:2px}
+.av-status{font-size:11px;color:#3B82F6;display:flex;align-items:center;gap:4px;margin-top:3px}
+.asd{width:5px;height:5px;border-radius:50%;background:#3B82F6;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.iv-qcard{background:#111827;border:1px solid #1F2937;border-radius:11px;padding:14px 16px;width:100%;max-width:420px}
+.ivql{font-family:'DM Mono',monospace;font-size:10px;color:#3B82F6;margin-bottom:5px;text-transform:uppercase;letter-spacing:.07em}
+.ivqt{font-size:13px;color:#F9FAFB;line-height:1.65}
+.iv-inp-wrap{width:100%;max-width:420px}
+.iv-inp{width:100%;background:#111827;border:1px solid #374151;border-radius:9px;padding:11px 13px;font-size:13px;color:#F9FAFB;font-family:'DM Sans',sans-serif;resize:none;min-height:75px;outline:none;line-height:1.5;transition:border-color .15s}
+.iv-inp:focus{border-color:#3B82F6}
+.iv-inp::placeholder{color:#4B5563}
+.iv-btn{width:100%;margin-top:9px;padding:11px;background:#2563EB;color:#fff;border:none;border-radius:9px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+.iv-btn:hover:not(:disabled){background:#1D4ED8}
+.iv-btn:disabled{opacity:.38;cursor:not-allowed}
+
+/* ── RESULTADO ── */
+#p-res{background:var(--bg);align-items:center;justify-content:center;padding:28px 18px}
+.res-card{background:var(--surface);border-radius:14px;padding:28px 22px;max-width:400px;width:100%;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.07)}
+.res-ico{font-size:48px;margin-bottom:14px}
+.res-ttl{font-family:'DM Serif Display',serif;font-size:22px;color:var(--text);margin-bottom:7px}
+.res-sub{font-size:13px;color:var(--mid);line-height:1.6;margin-bottom:18px}
+.res-score-row{display:flex;align-items:center;justify-content:center;gap:14px;background:var(--omint-l);border-radius:9px;padding:13px;margin-bottom:16px}
+.rsn{font-family:'DM Serif Display',serif;font-size:34px;color:var(--omint)}
+.rsl{font-size:11px;color:var(--mid);text-align:left}
+.rsl strong{display:block;color:var(--omint);font-size:12px}
+.res-next{background:var(--green-l);border:1px solid rgba(29,184,122,.2);border-radius:9px;padding:13px;font-size:13px;color:#0F5132;line-height:1.6}
+.res-next.cal{background:var(--green-l);border-color:rgba(29,184,122,.3)}
+
+@keyframes fadein{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<!-- LANDING -->
+<div class="page on" id="p-land">
+  <div class="hero">
+    <div class="omint-row">
+      <div class="omint-mark">O</div>
+      <span class="omint-nm">Omint S.A.</span>
+    </div>
+    <div class="hero-badge">📢 Búsqueda activa · Mayo 2026</div>
+    <h1>Asesor/a <em>Comercial</em><br>Canal Salud Prepaga</h1>
+    <p class="hero-sub">Sumáte al equipo de ventas de Omint y ayudá a las personas a acceder a la mejor salud prepaga de Argentina.</p>
+    <div class="hero-pills">
+      <div class="pill">📍 CABA y GBA</div>
+      <div class="pill">💼 Relación de dependencia</div>
+      <div class="pill">💰 Sueldo + comisiones</div>
+      <div class="pill">🏥 Cobertura Omint</div>
+    </div>
+    <button class="cta" onclick="startProcess()">
+      <span style="font-size:19px">💬</span> Postularme por WhatsApp
+    </button>
+  </div>
+  <div class="details">
+    <div class="dcard">
+      <h3>Lo que buscamos</h3>
+      <div class="drow"><span class="drow-ico">✅</span><span class="drow-txt">Experiencia en <strong>ventas o atención comercial</strong> (seguros, salud, servicios)</span></div>
+      <div class="drow"><span class="drow-ico">✅</span><span class="drow-txt">Disponibilidad <strong>presencial</strong> en CABA o GBA</span></div>
+      <div class="drow"><span class="drow-ico">✅</span><span class="drow-txt">Perfil orientado a resultados y trabajo en equipo</span></div>
+      <div class="drow"><span class="drow-ico">✅</span><span class="drow-txt">Disponibilidad para incorporarse en los próximos <strong>30 días</strong></span></div>
+    </div>
+    <div class="steps-card">
+      <h3>Cómo es el proceso</h3>
+      <div class="si"><div class="si-n">1</div><div class="si-t"><strong>Screening inicial</strong> — chat rápido por WhatsApp (5 min)</div></div>
+      <div class="si"><div class="si-n">2</div><div class="si-t"><strong>Entrevista virtual</strong> — con agente de IA (15 min)</div></div>
+      <div class="si"><div class="si-n">3</div><div class="si-t"><strong>Entrevista presencial</strong> — con el equipo de RRHH de Omint</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- WHATSAPP -->
+<div class="page" id="p-wa">
+  <div class="wa-top">
+    <span class="wa-back" onclick="go('land')">←</span>
+    <div class="wa-cav">OM</div>
+    <div class="wa-ci">
+      <div class="wa-cn">Omint — Selección</div>
+      <div class="wa-cs" id="wa-st">en línea</div>
+    </div>
+  </div>
+  <div class="wa-prog">
+    <div class="wdots" id="wdots"></div>
+    <span class="wprog-lbl" id="wprog-lbl">Screening inicial</span>
+  </div>
+  <div class="wa-msgs" id="wa-msgs"></div>
+  <div class="wa-foot">
+    <textarea class="wa-in" id="wa-in" placeholder="Escribí tu respuesta..." rows="1"
+      onkeydown="waKey(event)" oninput="resize(this)"></textarea>
+    <button class="wa-sb" id="wa-sb" onclick="sendWA()">➤</button>
+  </div>
+</div>
+
+<!-- ENTREVISTA VIRTUAL -->
+<div class="page" id="p-iv">
+  <div class="iv-top">
+    <span class="iv-bk">←</span>
+    <div>
+      <div class="iv-ttl">Entrevista Virtual — HireAI × Omint</div>
+      <div class="iv-sub">Etapa 2 de 3 · Evaluación con IA</div>
+    </div>
+  </div>
+  <div class="iv-body">
+    <div class="iv-prog" id="iv-prog"></div>
+    <div class="av-ring" id="av-ring"><span class="av-face">🤖</span></div>
+    <div style="text-align:center">
+      <div class="av-name">Aria</div>
+      <div class="av-role">Agente de Evaluación · HireAI</div>
+      <div class="av-status" id="av-st"><div class="asd"></div>En sesión</div>
+    </div>
+    <div class="iv-qcard" id="iv-qcard">
+      <div class="ivql" id="iv-qlbl">Iniciando...</div>
+      <div class="ivqt" id="iv-qtxt">Aria está preparando la primera pregunta...</div>
+    </div>
+    <div class="iv-inp-wrap">
+      <textarea class="iv-inp" id="iv-inp" placeholder="Escribí tu respuesta..." rows="3"></textarea>
+      <button class="iv-btn" id="iv-btn" onclick="sendIV()" disabled>Responder →</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTADO -->
+<div class="page" id="p-res">
+  <div class="res-card" id="res-card"></div>
+</div>
+
+<script src="shared.js"></script>
+<script>
+const CID = 'c_' + Date.now().toString(36);
+let waH=[], ivH=[], waStep=0, ivStep=0;
+const WA_MAX=6, IV_MAX=5;
+let waBusy=false, ivBusy=false, waEnded=false;
+let candName='', cvFile='';
+
+// ── NAV ──
+function go(p){
+  document.querySelectorAll('.page').forEach(el=>el.classList.remove('on'));
+  document.getElementById('p-'+p).classList.add('on');
+}
+
+// ── START ──
+function startProcess(){
+  HireAI.upsert(CID,{stage:0,name:'Candidato nuevo',status:'active'});
+  go('wa');
+  buildWADots();
+  setTimeout(()=>botWA(true),700);
+}
+
+// ── WA DOTS ──
+const WA_LABELS=['Contacto','Experiencia','Disponibilidad','Salud/Seguros','Incorporación','CV'];
+function buildWADots(){
+  document.getElementById('wdots').innerHTML=
+    Array.from({length:WA_MAX},(_,i)=>`<div class="wd" id="wd${i}"></div>`).join('');
+}
+function setWAStep(n){
+  for(let i=0;i<WA_MAX;i++){
+    const d=document.getElementById('wd'+i);
+    if(d) d.className='wd'+(i<n?' done':i===n?' cur':'');
+  }
+  document.getElementById('wprog-lbl').textContent=WA_LABELS[Math.min(n,WA_LABELS.length-1)]||'Completado';
+}
+
+// ── WA BOT ──
+const WA_SYS=`Sos el agente de reclutamiento de Omint para Asesor/a Comercial.
+Hacé exactamente 5 preguntas, luego pedí el CV. Una pregunta por turno.
+1. Bienvenida + motivación para postularse
+2. ¿Experiencia en ventas o atención comercial? (excluyente: si dice no, igualmente seguí amable)
+3. ¿Disponibilidad presencial CABA/GBA? (excluyente)
+4. ¿Experiencia en salud o seguros? (informativa)
+5. ¿Incorporación en 30 días? (excluyente)
+6. Pedile el CV amablemente, decile que ya casi termina
+Reglas: máximo 3 líneas, tono amigable, español argentino (vos). Respondé SOLO el texto del mensaje.`;
+
+const WA_FB=['¡Hola! Soy el asistente de Selección de Omint. Me alegra que te interese la posición de Asesor/a Comercial. ¿Qué te motivó a postularte?','¡Gracias! ¿Tenés experiencia en ventas o atención comercial?','¿Podés trabajar presencialmente en CABA o GBA?','¿Tenés experiencia en el sector salud o seguros?','¿Podés incorporarte en los próximos 30 días?','¡Ya casi terminamos! Para completar tu postulación, ¿podés subir tu CV?'];
+let waFbI=0;
+
+const nowT=()=>{ const d=new Date(); return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0'); };
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+
+function addMsg(txt,type,extraHtml=''){
+  const msgs=document.getElementById('wa-msgs');
+  const wrap=document.createElement('div');
+  wrap.className=type==='bot'?'mw-b':'mw-u';
+  wrap.style.animation='fadein .28s ease';
+  if(type==='bot') wrap.innerHTML='<div class="mav">OM</div>';
+  const mb=document.createElement('div');
+  mb.className='mb mb-'+type;
+  mb.innerHTML=txt.replace(/\n/g,'<br>')+extraHtml+`<div class="${type==='bot'?'mt':'mt-u'}">${nowT()}${type==='usr'?' ✓✓':''}</div>`;
+  wrap.appendChild(mb);
+  msgs.appendChild(wrap);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+function showTyping(){
+  const msgs=document.getElementById('wa-msgs');
+  const wrap=document.createElement('div');
+  wrap.className='typing-wrap'; wrap.id='typi';
+  wrap.innerHTML='<div class="mav">OM</div><div class="typing"><div class="td"></div><div class="td"></div><div class="td"></div></div>';
+  msgs.appendChild(wrap); msgs.scrollTop=msgs.scrollHeight;
+}
+function hideTyping(){ document.getElementById('typi')?.remove(); }
+
+async function botWA(isFirst=false){
+  waBusy=true;
+  document.getElementById('wa-sb').disabled=true;
+  document.getElementById('wa-st').textContent='escribiendo...';
+  showTyping();
+  const msgs=isFirst?[{role:'user',content:'Iniciá con bienvenida amigable y primera pregunta sobre motivación.'}]:[...waH];
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:280,system:WA_SYS,messages:msgs})});
+    const d=await r.json();
+    const txt=d.content?.[0]?.text||WA_FB[waFbI++]||'...';
+    hideTyping(); addMsg(txt,'bot'); waH.push({role:'assistant',content:txt});
+  }catch(e){ hideTyping(); const fb=WA_FB[Math.min(waFbI++,WA_FB.length-1)]; addMsg(fb,'bot'); waH.push({role:'assistant',content:fb}); }
+  document.getElementById('wa-st').textContent='en línea';
+  if(waStep===WA_MAX-1) showUploader();
+  document.getElementById('wa-sb').disabled=waEnded||waStep>=WA_MAX;
+  waBusy=false;
+}
+
+async function sendWA(){
+  if(waBusy||waEnded) return;
+  const inp=document.getElementById('wa-in');
+  const txt=inp.value.trim(); if(!txt) return;
+  inp.value=''; inp.style.height='auto';
+  addMsg(txt,'usr'); waStep++; setWAStep(waStep);
+  if(waStep===1&&txt.length>2) candName=txt.split(' ')[0]||'Candidato/a';
+  waH.push({role:'user',content:txt});
+  if(waStep>=WA_MAX){
+    waEnded=true;
+    document.getElementById('wa-sb').disabled=true;
+    document.getElementById('wa-in').disabled=true;
+    document.getElementById('wa-in').placeholder='Subí tu CV para continuar...';
+  }
+  await botWA(false);
+}
+
+function showUploader(){
+  const msgs=document.getElementById('wa-msgs');
+  const wrap=document.createElement('div');
+  wrap.className='mw-b'; wrap.id='uploader-wrap';
+  wrap.innerHTML=`<div class="mav">OM</div>
+    <div class="upload-box">
+      <input type="file" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" onchange="handleCV(event)"/>
+      <div class="ub-ico">📄</div>
+      <div class="ub-txt">Tocá para subir tu CV</div>
+      <div class="ub-fmt">PDF · Word · Imagen</div>
+    </div>`;
+  msgs.appendChild(wrap); msgs.scrollTop=msgs.scrollHeight;
+}
+
+async function handleCV(e){
+  const file=e.target.files[0]; if(!file) return;
+  cvFile=file.name;
+  document.getElementById('uploader-wrap')?.remove();
+  const msgs=document.getElementById('wa-msgs');
+  const wrap=document.createElement('div');
+  wrap.className='mw-u';
+  wrap.innerHTML=`<div class="file-ok"><span class="fo-ico">📄</span><div><div class="fo-nm">${file.name}</div><div class="fo-sz">${(file.size/1024).toFixed(0)} KB</div></div></div>`;
+  msgs.appendChild(wrap); msgs.scrollTop=msgs.scrollHeight;
+
+  let cvData={nombre:candName,titular:'',empresa:'',skills:[]};
+  if(file.type.startsWith('image/')||file.type==='application/pdf'){
+    const reader=new FileReader();
+    reader.onload=async ev=>{
+      const b64=ev.target.result.split(',')[1];
+      try{
+        const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:300,messages:[{role:'user',content:[{type:'image',source:{type:'base64',media_type:file.type,data:b64}},{type:'text',text:'CV. Extraé JSON sin markdown: {"nombre":"","titular":"","empresa":"","anos":"","skills":["","",""]}'}]}]})});
+        const d=await r.json();
+        cvData={...cvData,...JSON.parse((d.content?.[0]?.text||'{}').replace(/```json|```/g,'').trim())};
+      }catch(_){}
+      finishScreening(cvData);
+    };
+    reader.readAsDataURL(file);
+  } else { finishScreening(cvData); }
+}
+
+async function finishScreening(cv){
+  await sleep(700); showTyping(); await sleep(1100); hideTyping();
+  addMsg(`✅ ¡CV recibido! Gracias ${candName||''}.\n\nEstamos procesando tu perfil. En breve te contactamos con los próximos pasos. 🎉`,'bot');
+  const score1=Math.min(65+Math.floor(Math.random()*18),83);
+  HireAI.upsert(CID,{stage:1,name:cv.nombre||candName||'Candidato/a',role:cv.titular||'',company:cv.empresa||'',skills:cv.skills||[],score1,cvFile,screeningAnswers:waH.filter(m=>m.role==='user').map(m=>m.content),knockoutOk:true});
+  document.getElementById('wa-in').placeholder='Procesando tu postulación...';
+  pollApproval();
+}
+
+function pollApproval(){
+  let ticks=0;
+  const iv=setInterval(()=>{
+    ticks++;
+    const c=HireAI.find(CID);
+    if(c?.recruiterApproved||ticks>6){ clearInterval(iv); if(!c?.recruiterApproved) HireAI.upsert(CID,{recruiterApproved:true}); setTimeout(sendInvitation,800); }
+  },2000);
+}
+
+function sendInvitation(){
+  addMsg('🎉 *¡Buenas noticias!* Tu perfil avanzó a la Etapa 2.\n\nTe invitamos a una entrevista virtual con Aria, nuestra agente de evaluación. Dura ~15 minutos.\n\n¿Empezamos?','bot');
+  const msgs=document.getElementById('wa-msgs');
+  const wrap=document.createElement('div');
+  wrap.className='mw-b';
+  wrap.innerHTML=`<div class="mav">OM</div>
+    <button onclick="startIV()" style="background:#25D366;color:#fff;padding:11px 18px;border-radius:10px;font-size:13px;font-weight:500;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;">Iniciar entrevista virtual →</button>`;
+  msgs.appendChild(wrap); msgs.scrollTop=msgs.scrollHeight;
+}
+
+// ── ENTREVISTA VIRTUAL ──
+const IV_QS=[
+  'Contame sobre tu experiencia más relevante en ventas. ¿Cuál fue el logro del que más te orgullás?',
+  '¿Cómo describís tu estilo para manejar objeciones de un cliente que no quiere comprar?',
+  'Si tuvieras que presentar los beneficios de Omint a alguien que ya tiene otra prepaga, ¿cómo lo harías?',
+  '¿Cómo te organizás para cumplir tus metas mensuales cuando el mes va difícil?',
+  'Última pregunta: ¿qué te diferencia de otros candidatos que también aplican a esta posición?'
+];
+const IV_SYS=`Sos Aria, agente de evaluación de HireAI para Omint. Hacés ${IV_MAX} preguntas sobre perfil comercial. Después de cada respuesta, hacé un comentario empático breve (1 línea) y luego pasá a la siguiente pregunta. Las preguntas son:\n${IV_QS.map((q,i)=>`${i+1}. ${q}`).join('\n')}\nTras la respuesta 5: agradecé cálidamente y decí que el equipo de RRHH estará en contacto. Respondé SOLO el texto. Máximo 4 líneas. Español argentino.`;
+
+function startIV(){
+  go('iv');
+  const prog=document.getElementById('iv-prog');
+  prog.innerHTML=IV_QS.map((_,i)=>`<div class="ivpd" id="ivpd${i}"></div>`).join('');
+  updateIVProg(); loadIVQ(0);
+}
+
+function updateIVProg(){
+  IV_QS.forEach((_,i)=>{ const d=document.getElementById('ivpd'+i); if(d) d.className='ivpd'+(i<ivStep?' done':i===ivStep?' cur':''); });
+}
+
+async function loadIVQ(idx){
+  const ring=document.getElementById('av-ring');
+  const st=document.getElementById('av-st');
+  document.getElementById('iv-qlbl').textContent='Aria está pensando...';
+  document.getElementById('iv-qtxt').textContent='...';
+  ring.classList.add('talk'); st.innerHTML='<div class="asd"></div>Pensando...';
+  document.getElementById('iv-btn').disabled=true;
+
+  if(idx>=IV_MAX){ finishIV(); return; }
+
+  const msgs=ivH.length===0?[{role:'user',content:'Hacé la pregunta 1.'}]:[...ivH];
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:280,system:IV_SYS,messages:msgs})});
+    const d=await r.json();
+    const txt=d.content?.[0]?.text||IV_QS[idx];
+    ivH.push({role:'assistant',content:txt});
+    document.getElementById('iv-qtxt').textContent=txt;
+  }catch(_){ document.getElementById('iv-qtxt').textContent=IV_QS[idx]; ivH.push({role:'assistant',content:IV_QS[idx]}); }
+
+  document.getElementById('iv-qlbl').textContent=`Pregunta ${idx+1} de ${IV_MAX}`;
+  ring.classList.remove('talk'); st.innerHTML='<div class="asd"></div>Escuchándote';
+  document.getElementById('iv-btn').disabled=false;
+}
+
+async function sendIV(){
+  if(ivBusy) return;
+  const inp=document.getElementById('iv-inp');
+  const txt=inp.value.trim(); if(!txt) return;
+  inp.value=''; ivBusy=true;
+  document.getElementById('iv-btn').disabled=true;
+  ivH.push({role:'user',content:txt}); ivStep++; updateIVProg();
+  HireAI.upsert(CID,{score2partial:Math.min(60+ivStep*6+Math.floor(Math.random()*8),94)});
+  await loadIVQ(ivStep);
+  ivBusy=false;
+}
+
+async function finishIV(){
+  const transcript=ivH.filter(m=>m.role==='user').map(m=>m.content).join('\n');
+  let a={score_total:82,score_comercial:84,score_comunicacion:80,score_motivacion:83,resumen:'Perfil sólido con buena orientación comercial y comunicación clara.',recomendacion:'avanzar',pda:'Vendedor/a'};
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:380,messages:[{role:'user',content:`Analizá esta entrevista para Asesor Comercial en Omint:\n\n${transcript}\n\nSOLO JSON: {"score_total":<0-100>,"score_comercial":<0-100>,"score_comunicacion":<0-100>,"score_motivacion":<0-100>,"resumen":"<2 oraciones>","recomendacion":"avanzar"|"espera"|"descartar","pda":"Vendedor/a"|"Analítico/a"|"Relacional"|"Directivo/a"}`}]})});
+    const d=await r.json();
+    a={...a,...JSON.parse((d.content?.[0]?.text||'{}').replace(/```json|```/g,'').trim())};
+  }catch(_){}
+
+  HireAI.upsert(CID,{stage:2,score2:a.score_total,pdaProfile:a.pda,ivResumen:a.resumen,ivRec:a.recomendacion,ivScores:{comercial:a.score_comercial,comunicacion:a.score_comunicacion,motivacion:a.score_motivacion}});
+  showResult(a);
+  pollCalendar();
+}
+
+function showResult(a){
+  go('res');
+  const ok=a.recomendacion==='avanzar';
+  document.getElementById('res-card').innerHTML=`
+    <div class="res-ico">${ok?'🎉':'📋'}</div>
+    <div class="res-ttl">${ok?'¡Excelente entrevista!':'Entrevista completada'}</div>
+    <div class="res-sub">${ok?'Tu perfil encajó muy bien con lo que busca Omint. El equipo de RRHH revisará tu candidatura.':'Gracias por tu tiempo. El equipo evaluará tu perfil y te contactará pronto.'}</div>
+    <div class="res-score-row"><div class="rsn">${a.score_total}</div><div class="rsl"><strong>Score general</strong>Evaluación HireAI</div></div>
+    ${ok?`<div class="res-next" id="res-next">⏳ Coordinando tu entrevista presencial con RRHH de Omint. Te llegará la confirmación por WhatsApp.</div>`:''}`;
+}
+
+function pollCalendar(){
+  const iv=setInterval(()=>{
+    const c=HireAI.find(CID);
+    if(c?.calendarSlot){
+      clearInterval(iv);
+      const next=document.getElementById('res-next');
+      if(next){ next.className='res-next cal'; next.innerHTML=`✅ <strong>Entrevista agendada</strong><br>${c.calendarSlot}<br>Omint S.A. — Av. Leandro N. Alem 1050, CABA<br><br>Invitación de calendario enviada a tu mail.`; }
+    }
+  },2000);
+}
+
+// ── HELPERS ──
+function waKey(e){ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendWA();} }
+function resize(el){ el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,88)+'px'; }
+</script>
+</body>
+</html>
